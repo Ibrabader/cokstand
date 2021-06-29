@@ -1,8 +1,8 @@
-table {
+/* table {
 
     border: solid;
-}
-td {
+} */
+/* table tr td {
 
     border: springgreen;
 }
@@ -14,4 +14,42 @@ th {
 tr {
 
     border: springgreen;
+} */
+
+/* table {
+    border: solid;
+} */
+h1 {
+
+
+    text-align: center;
+    padding-bottom: 50px;
+    font-weight: bolder;
+    font-size: 25px;
+} 
+
+#cookie-table {
+align-items: center;
+padding-left: 25%;
+   
 }
+
+
+
+#cookie-table  th {
+    padding: 7px;
+    background-color: rgb(212, 210, 189);
+
+    border: solid}
+    #cookie-table tr td {
+        padding: 5px;
+        background-color: rgb(231, 227, 190);
+    
+        border: solid}
+
+        
+
+        
+
+
+        
