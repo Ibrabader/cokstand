@@ -37,9 +37,10 @@ Store.prototype.CaclCookiesPerHour = function ( ) {
   for (let i = 0; i < hours.length; i++) {
  
      this.CookiesPerHours.push(Math.ceil(this.AvgCookieSale * random(this.MinCustomers,this.MaxCustomers)));
-this.total+= this.CookiesPerHours[i];
-console.log(this.total);
+// this.total+= this.CookiesPerHours[i];
+this.TotalCookiesPerDay+=this.CookiesPerHours[i];
   }
+
 }
 
 
@@ -62,47 +63,78 @@ TableElement1.appendChild(HeaderRow);
 let FirstTh = document.createElement('th');
 HeaderRow.appendChild(FirstTh)
 FirstTh.textContent = 'Location';
+
+
 for (let i = 0; i < hours.length; i++) {
   let HoursTh = document.createElement('th')
   HeaderRow.appendChild(HoursTh)
-  HoursTh.textContent=hours[i];}
+  HoursTh.textContent=hours[i];
+}
 
   let LastTh = document.createElement('th');
   HeaderRow.appendChild(LastTh);
   LastTh.textContent = ' Daily Total';
   
   
- 
-
 }
 
-HeaderRender();
+
 
 Store.prototype.render = function (){
 
   let DataRow = document.createElement('tr');
   TableElement1.appendChild(DataRow);
+
+
   let NameData= document.createElement('td');
   DataRow.appendChild(NameData);
   NameData.textContent = this.LocationName;
+
+
 for (let i = 0; i < hours.length; i++) {
-let TdElement = document.createElement('td');
-DataRow.appendChild(TdElement);  
-TdElement.textContent=this.CookiesPerHours[i];
-// for (let i = 0; i < StoresArray.length; i++) {
-//   let TotalData = document.createElement('td');
-//   DataRow.appendChild(TotalData)
-//   DataRow.textContent = this.total;
+    let TdElement = document.createElement('td');
+    DataRow.appendChild(TdElement);  
+    TdElement.textContent=this.CookiesPerHours[i];
+}
+
+
+  let TotalData = document.createElement('td');
+  DataRow.appendChild(TotalData);
+  TotalData.textContent = this.TotalCookiesPerDay;
+ 
   
-// }
-}
+
 
 }
-
+HeaderRender();
 for (let i = 0; i < StoresArray.length; i++) {
-  // StoresArray[i].CalculateCustomerPerHour();
+
   StoresArray[i].CaclCookiesPerHour();
   StoresArray[i].render();
-  // console.log( StoresArray[i].total);
 }
-  
+
+function footerRender ( ){
+let FooterRow = document.createElement('tr');
+TableElement1.appendChild(FooterRow);
+let footerDataTh = document.createElement('th');
+FooterRow.appendChild(footerDataTh);
+footerDataTh.textContent = 'Totals';
+
+let TotalOfTotal=0;
+for (let j = 0; j < hours.length; j++) {
+  let TotalPerHour =0;
+
+  for (let i = 0; i < StoresArray.length; i++) {
+    TotalPerHour +=StoresArray[i].CookiesPerHours[j];
+    TotalOfTotal+=StoresArray[i].CookiesPerHours[j];
+  }
+let TotalOfTotalData = document.createElement('td')
+  FooterRow.appendChild(TotalOfTotalData)
+  TotalOfTotalData.textContent = TotalPerHour;
+}
+
+let LastTd = document.createElement('td');
+FooterRow.appendChild(LastTd);
+LastTd.textContent = TotalOfTotal;
+}
+footerRender();
