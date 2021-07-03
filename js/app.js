@@ -10,10 +10,13 @@ function random(min,max){
 }
 
 function Store ( LocationName,MinCustomers,MaxCustomers,AvgCookieSale){
+  
+ 
   this.LocationName=LocationName;
   this.MinCustomers=MinCustomers;
 this.MaxCustomers=MaxCustomers;
 this.AvgCookieSale=AvgCookieSale;
+
 
 
 this.CustomerPerHour =[];
@@ -23,16 +26,19 @@ StoresArray.push(this);
 
 }
 
-Store.prototype.CalculateCustomerPerHour = function() {
-  for ( let i = 0; i < hours.length; i++) {
-  this.CustomerPerHour.push(random(this.MinCustomers,this.MaxCustomers));
-}}
+// Store.prototype.CalculateCustomerPerHour = function() {
+//   for ( let i = 0; i < hours.length; i++) {
+//   this.CustomerPerHour.push(random(this.MinCustomers,this.MaxCustomers));
+//   console.log(typeof this.CustomerPerHour);
+// }}
 
 Store.prototype.CaclCookiesPerHour = function ( ) {
+  this.total=0;
   for (let i = 0; i < hours.length; i++) {
  
-     this.CookiesPerHours.push(Math.floor(this.AvgCookieSale * this.CustomerPerHour));
+     this.CookiesPerHours.push(Math.ceil(this.AvgCookieSale * random(this.MinCustomers,this.MaxCustomers)));
 this.total+= this.CookiesPerHours[i];
+console.log(this.total);
   }
 }
 
@@ -64,6 +70,9 @@ for (let i = 0; i < hours.length; i++) {
   let LastTh = document.createElement('th');
   HeaderRow.appendChild(LastTh);
   LastTh.textContent = ' Daily Total';
+  
+  
+ 
 
 }
 
@@ -78,13 +87,22 @@ Store.prototype.render = function (){
   NameData.textContent = this.LocationName;
 for (let i = 0; i < hours.length; i++) {
 let TdElement = document.createElement('td');
-DataRow.appendChild(TdElement)  
+DataRow.appendChild(TdElement);  
 TdElement.textContent=this.CookiesPerHours[i];
+// for (let i = 0; i < StoresArray.length; i++) {
+//   let TotalData = document.createElement('td');
+//   DataRow.appendChild(TotalData)
+//   DataRow.textContent = this.total;
+  
+// }
 }
+
 }
 
 for (let i = 0; i < StoresArray.length; i++) {
-  StoresArray[i].CalculateCustomerPerHour();
+  // StoresArray[i].CalculateCustomerPerHour();
   StoresArray[i].CaclCookiesPerHour();
   StoresArray[i].render();
+  // console.log( StoresArray[i].total);
 }
+  
