@@ -1,77 +1,90 @@
-
 'use strict';
+
 let hours = ['6am', '7am', '8am', '9am', '10am', '11am', '12pm', '1pm', '2pm', '3pm', '4pm', '5pm', '6pm', '7pm', '8pm'];
-let cities = []
-let storenames = ['Seattle','Tokyo','Dubai','Paris','Lima','Total'];
-let allCustomerArray = [];
-function Store (mincust,maxcust,avgsales){
 
+let StoresArray = [];
 
-this.mincust=mincust;
-this.maxcust=maxcust;
-this.avgsales=avgsales;
-// storenames.push(this);
+function random(min,max){
+
+  return Math.floor(Math.random() * (max - min +1 ) +min);
 }
-/* End of the constructor*/
-/* function for the headding row*/
-function SalsHours (){
 
-  let parent = document.getElementById('cookie-table');
-// create table
-let tableEl = document.createElement('table');
-// append
-parent.appendChild(tableEl);
-// creating the tr in the table
-let headingRow = document.createElement('th');
-tableEl.appendChild(headingRow);
-for (let i = 0; i < hours.length; i++){
-  let time = document.createElement('th');
-  headingRow.appendChild(time);
-  
-  time.textContent = hours[i];
-  
+function Store ( LocationName,MinCustomers,MaxCustomers,AvgCookieSale){
+  this.LocationName=LocationName;
+  this.MinCustomers=MinCustomers;
+this.MaxCustomers=MaxCustomers;
+this.AvgCookieSale=AvgCookieSale;
+
+
+this.CustomerPerHour =[];
+this.CookiesPerHours =[];
+this.TotalCookiesPerDay=0;
+StoresArray.push(this);
+
+}
+
+Store.prototype.CalculateCustomerPerHour = function() {
+  for ( let i = 0; i < hours.length; i++) {
+  this.CustomerPerHour.push(random(this.MinCustomers,this.MaxCustomers));
+}}
+
+Store.prototype.CaclCookiesPerHour = function ( ) {
+  for (let i = 0; i < hours.length; i++) {
+ 
+     this.CookiesPerHours.push(Math.floor(this.AvgCookieSale * this.CustomerPerHour));
+this.total+= this.CookiesPerHours[i];
   }
-
-for (let i = 0; i < storenames.length; i++) {
-  let TableRows = document.createElement('tr');
-tableEl.appendChild(TableRows);
-let TableTd = document.createElement('td')  
-TableRows.appendChild(TableTd)
-TableTd.textContent = storenames[i]
-
-}
-}
-SalsHours();
-
-function TableElements (){
-}
-TableElements();
-
-
-for (let i = 0; i < cities.length; i++) {
-
-console.log(cities[i]);}
-
-
-
-Store.prototype.randomnum = function ( ) {
-    return Math.floor(Math.random() * (this.maxcust - this.mincust + 1) + this.mincust);
-}
-Store.prototype.avgeragecustomer = function() {
-    return allCustomerArray= this.randomnum()*this.avgsales;
 }
 
 
-let Seattle = new Store (23,65,6.3)
-// let Tokyo = new Store (3, 24, 1.2, 'Tokyo');
-// let Dubai = new Store (11, 38, 3.7, 'Dubai');
-// let Paris = new Store (20, 38, 2.3, 'Paris');
-// let Lima = new Store (2, 16, 4.6, 'Lima');
-Seattle.randomnum();
-Seattle.avgeragecustomer();
+let Seattle = new Store ('Seattle',25,65,6.3);
+let Tokyo = new Store ('Tokyo',3,24,1.2);
+let Dubai = new Store ('Dubai',11,38,3.7);
+let Paris = new Store ('Paris',20,38,2.3);
+let Lima = new Store ('Lima',2,16,4.6);
 
 
-console.log(Seattle);
-console.log(Seattle.randomnum());
-console.log(Seattle.avgeragecustomer());
-console.log(storenames);
+let Parent = document.getElementById('cookie-table');
+let TableElement1 = document.createElement('table');
+Parent.appendChild(TableElement1);
+
+
+function HeaderRender (){
+
+let HeaderRow= document.createElement('tr');
+TableElement1.appendChild(HeaderRow);
+let FirstTh = document.createElement('th');
+HeaderRow.appendChild(FirstTh)
+FirstTh.textContent = 'Location';
+for (let i = 0; i < hours.length; i++) {
+  let HoursTh = document.createElement('th')
+  HeaderRow.appendChild(HoursTh)
+  HoursTh.textContent=hours[i];}
+
+  let LastTh = document.createElement('th');
+  HeaderRow.appendChild(LastTh);
+  LastTh.textContent = ' Daily Total';
+
+}
+
+HeaderRender();
+
+Store.prototype.render = function (){
+
+  let DataRow = document.createElement('tr');
+  TableElement1.appendChild(DataRow);
+  let NameData= document.createElement('td');
+  DataRow.appendChild(NameData);
+  NameData.textContent = this.LocationName;
+for (let i = 0; i < hours.length; i++) {
+let TdElement = document.createElement('td');
+DataRow.appendChild(TdElement)  
+TdElement.textContent=this.CookiesPerHours[i];
+}
+}
+
+for (let i = 0; i < StoresArray.length; i++) {
+  StoresArray[i].CalculateCustomerPerHour();
+  StoresArray[i].CaclCookiesPerHour();
+  StoresArray[i].render();
+}
